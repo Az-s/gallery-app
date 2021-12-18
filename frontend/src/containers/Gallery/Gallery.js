@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ImageList, ImageListItem, ImageListItemBar, ListSubheader, IconButton, Grid, Button } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
+import CloseIcon from '@mui/icons-material/Close';
 import AddPhotoAlternateRoundedIcon from '@mui/icons-material/AddPhotoAlternateRounded';
 import { Link } from 'react-router-dom';
+
 
 const itemData = [
     {
@@ -79,43 +81,58 @@ const itemData = [
 ];
 
 const Gallery = () => {
+    const [model, setModel] = useState(false);
+    const [tempimgSrc, setTempImgSrc] = useState('');
+
+    const getImg = (img) => {
+        setTempImgSrc(img);
+        setModel(true);
+    }
+
     return (
-        <ImageList sx={{ margin: '1rem' }} >
-            <ImageListItem key="Subheader" cols={6}>
-                <Grid item container justifyContent="space-between" alignItems="center">
-                    <Grid item >
-                        <ListSubheader component="div">Gallery</ListSubheader>
+        <>
+            <div className={model ? "model open" : "model"}>
+                <img src={tempimgSrc} />
+                <CloseIcon onClick={()=>setModel(false)} />
+            </div>
+            <ImageList sx={{ margin: '1rem' }} >
+                <ImageListItem key="Subheader" cols={6}>
+                    <Grid item container justifyContent="space-between" alignItems="center">
+                        <Grid item >
+                            <ListSubheader component="div">Gallery</ListSubheader>
+                        </Grid>
+                        <Grid item>
+                            <Button coloe="primary" component={Link} to="/photos/new">
+                                <AddPhotoAlternateRoundedIcon />
+                            </Button>
+                        </Grid>
                     </Grid>
-                    <Grid item>
-                        <Button coloe="primary" component={Link} to="/photos/new">
-                            <AddPhotoAlternateRoundedIcon />
-                        </Button>
-                    </Grid>
-                </Grid>
-            </ImageListItem>
-            {itemData.map((item) => (
-                <ImageListItem key={item.img} className='image'>
-                    <img
-                        src={`${item.img}?w=248&fit=crop&auto=format`}
-                        srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                        alt={item.title}
-                        loading="lazy"
-                    />
-                    <ImageListItemBar
-                        title={item.title}
-                        subtitle={item.author}  
-                        actionIcon={
-                            <IconButton
-                                sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                                aria-label={`info about ${item.title}`}
-                            >
-                                <InfoIcon />
-                            </IconButton>
-                        }
-                    />
                 </ImageListItem>
-            ))}
-        </ImageList>
+                {itemData.map((item) => (
+                    <ImageListItem key={item.img} className='image'>
+                        <img
+                            src={`${item.img}?w=248&fit=crop&auto=format`}
+                            srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                            alt={item.title}
+                            loading="lazy"
+                            onClick={() => getImg(item.img)}
+                        />
+                        <ImageListItemBar
+                            title={item.title}
+                            subtitle={item.author}
+                            actionIcon={
+                                <IconButton
+                                    sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
+                                    aria-label={`info about ${item.title}`}
+                                >
+                                    <InfoIcon />
+                                </IconButton>
+                            }
+                        />
+                    </ImageListItem>
+                ))}
+            </ImageList>
+        </>
     )
 }
 
