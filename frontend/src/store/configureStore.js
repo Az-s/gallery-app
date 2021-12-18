@@ -8,8 +8,8 @@ import usersSlice , {initialState} from "./slices/usersSlice";
 import photosSlice from "./slices/photosSlice";
 
 const rootReducer = combineReducers({
-  'photos': photosSlice.reducer,
-  'users': usersSlice.reducer,
+  photos: photosSlice.reducer,
+  users: usersSlice.reducer,
 });
 
 const persistedState = loadFromLocalStorage();

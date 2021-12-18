@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -14,7 +14,6 @@ import { useDispatch, useSelector } from "react-redux";
 import GoogleLogin from "../../components/UI/GoogleLogin/GoogleLogin";
 import { loginUser } from '../../store/actions/usersActions';
 import ProgressBtn from '../../components/UI/ProgressBtn/ProgressBtn';
-import { clearErrorUser } from '../../store/actions/usersActions';
 
 
 function Copyright(props) {
@@ -41,12 +40,6 @@ const Login = () => {
         username: '',
         password: ''
     });
-
-    useEffect(() => {
-        return () => {
-            dispatch(clearErrorUser());
-        };
-    }, [dispatch]);
 
     const inputChangeHandler = e => {
         const { name, value } = e.target;

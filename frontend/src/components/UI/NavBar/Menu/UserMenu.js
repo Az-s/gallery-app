@@ -1,6 +1,8 @@
 import React , {useState} from 'react';
 import {Button, Menu, MenuItem} from "@mui/material";
 import {useDispatch} from "react-redux";
+import { Link } from "react-router-dom";
+import {logoutUser} from '../../../../store/actions/usersActions';
 
 const UserMenu = ({user}) => {
     const dispatch = useDispatch();
@@ -17,7 +19,7 @@ const UserMenu = ({user}) => {
     return (
         <>
             <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} color="inherit">
-                Hello, {user.displayName}!
+                Hello, <Link to="/my_photos" style={{ color: '#fff', textDecoration: 'none' }}>{user.name}!</Link>
             </Button>
             <Menu
                 id="simple-menu"
@@ -26,9 +28,9 @@ const UserMenu = ({user}) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem>Profile</MenuItem>
-                <MenuItem>My account</MenuItem>
-                {/* <MenuItem onClick={() => dispatch(logoutUser())}>Logout</MenuItem> */}
+                <MenuItem component={Link} to='/my_photos' style={{ color: '#fff', textDecoration: 'none' }}>My photos</MenuItem>
+                <MenuItem component={Link} to='/add_photo' style={{ color: '#fff', textDecoration: 'none' }}>Add photo</MenuItem>
+                <MenuItem onClick={() => dispatch(logoutUser())}>Logout</MenuItem>
             </Menu>
         </>
     )

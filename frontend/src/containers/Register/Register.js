@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Link } from "react-router-dom";
@@ -8,7 +8,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from '../../store/actions/usersActions';
 import ProgressBtn from '../../components/UI/ProgressBtn/ProgressBtn';
-import { clearErrorUser } from '../../store/actions/usersActions';
 
 function Copyright(props) {
     return (
@@ -34,12 +33,6 @@ const Register = () => {
         username: '',
         password: '',
     });
-
-    useEffect = (() => {
-        return () => {
-            dispatch(clearErrorUser());
-        };
-    }, [dispatch]);
 
     const inputChangeHandler = e => {
         const { name, value } = e.target;

@@ -16,10 +16,15 @@ import {
     deletePhoto,
 } from '../actions/photoActions';
 
-
-export function* fetchPhotosSagas() {
+export function* fetchPhotosSagas({ payload: id }) {
     try {
-        const response = yield axiosApi.get('/photos');
+        let url = '/photos';
+
+        if (id) {
+            url += '?user=' + id;
+        }
+
+        const response = yield axiosApi.get(url);
         yield put(fetchPhotosSuccess(response.data));
     } catch (error) {
         toast.error('Fetch photos failed');
@@ -27,7 +32,7 @@ export function* fetchPhotosSagas() {
     }
 }
 
-export function* fetchPhotoSagas(id) {
+export function* fetchPhotoSagas({ payload: id }) {
     try {
         const response = yield axiosApi.get('/photos' + id);
         yield put(fetchPhotoSuccess(response.data));
@@ -37,9 +42,9 @@ export function* fetchPhotoSagas(id) {
     }
 }
 
-export function* createPhotoSagas(photosData) {
+export function* createPhotoSagas({ payload: photosData }) {
     try {
-        const response = yield axiosApi.post('/photos' , photosData);
+        const response = yield axiosApi.post('/photos', photosData);
         yield put(createPhotoSuccess(response.data));
         toast.success('Photo created');
         yield put(historyPush('/'));
@@ -49,7 +54,7 @@ export function* createPhotoSagas(photosData) {
     }
 }
 
-export function* deletePhotoSagas(id) {
+export function* deletePhotoSagas({ payload: id }) {
     try {
         const response = yield axiosApi.delete('/photos' + id);
         yield put(fetchPhotosSuccess(response.data));
@@ -61,11 +66,11 @@ export function* deletePhotoSagas(id) {
     }
 }
 
-const photoSaga = [
+const photosSagas = [
     takeEvery(fetchPhotosRequest, fetchPhotosSagas),
     takeEvery(fetchPhotoRequest, fetchPhotoSagas),
     takeEvery(createPhotoRequest, createPhotoSagas),
     takeEvery(deletePhoto, deletePhotoSagas),
 ];
 
-export default photoSaga;
+export default photosSagas;

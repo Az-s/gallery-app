@@ -2,16 +2,16 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { Typography } from "@mui/material";
 import PhotoForm from '../../components/PhotoForm/PhotoForm';
-import { createPhotoRequest } from '../../store/actions/photoActions';
+import { fetchPhotosRequest , createPhotoRequest} from '../../store/actions/photoActions';
 
 const NewPhoto = ({ history }) => {
     const dispatch = useDispatch();
     const error = useSelector(state => state.products.createProductError);
     const loading = useSelector(state => state.products.createProductLoading);
 
-    // useEffect(() => {
-    //     dispatch(fetchAuthorsRequest());
-    // }, [dispatch]);
+    useEffect(() => {
+        dispatch(fetchPhotosRequest());
+    }, [dispatch]);
 
     const onSubmit = photoData => {
         dispatch(createPhotoRequest(photoData));

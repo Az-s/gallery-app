@@ -21,9 +21,8 @@ const photosSlice = createSlice({
             state.fetchPhotosLoading = false;
             state.photos = photos;
         },
-        fetchPhotosFailure: (state, { payload: error }) => {
+        fetchPhotosFailure: state => {
             state.fetchPhotosLoading = false;
-            state.fetchPhotoError = error;
         },
         fetchPhotoRequest: state => {
             state.fetchPhotoLoading = true;
@@ -32,17 +31,16 @@ const photosSlice = createSlice({
             state.fetchPhotoLoading = false;
             state.photo = photo;
         },
-        fetchPhotoFailure: (state, { payload: error }) => {
+        fetchPhotoFailure: state => {
             state.fetchPhotoLoading = false;
-            state.fetchPhotoError = error;
         },
-        createPhotoRequest: state => {
+        createProductRequest: state => {
             state.createPhotoLoading = true;
         },
-        createPhotoSuccess: (state) => {
+        createProductSuccess: state => {
             state.createPhotoLoading = false;
         },
-        createPhotoFailure: (state, { payload: error }) => {
+        createProductFailure: (state, { payload: error }) => {
             state.createPhotoLoading = false;
             state.createPhotoError = error;
         },

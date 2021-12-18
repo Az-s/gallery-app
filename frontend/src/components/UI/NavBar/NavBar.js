@@ -6,7 +6,7 @@ import UserMenu from './Menu/UserMenu';
 import AnonymousMenu from './Menu/AnonymousMenu';
 
 const NavBar = () => {
-    // const user = useSelector(state => state.users.user);
+    const user = useSelector(state => state.users.user);
 
     return (
         <>
@@ -18,14 +18,13 @@ const NavBar = () => {
                                 <Link to="/" style={{ color: '#fff', textDecoration: 'none' }}>Image Gallery</Link>
                             </Typography>
                         </Grid>
-                        {/* <Grid item>
+                        <Grid item>
                             {user ? (
                                 <UserMenu user={user} />
                             ) : (
                                 <AnonymousMenu />
                             )}
-                        </Grid> */}
-                        <AnonymousMenu />
+                        </Grid>
                     </Grid>
                 </Toolbar>
             </AppBar>

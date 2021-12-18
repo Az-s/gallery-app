@@ -4,8 +4,8 @@ export const initialState = {
   user: null,
   registerLoading: false,
   registerError: null,
-  loginError: null,
   loginLoading: false,
+  loginError: null,
 };
 
 const name = 'users';
@@ -14,21 +14,35 @@ const usersSlice = createSlice({
   name,
   initialState,
   reducers: {
-    registerUser(state, action) {
+    registerUser: state => {
       state.registerLoading = true;
     },
-    registerUserSuccess(state, { payload: userData }) {
-      state.user = userData;
+    registerUserSuccess: (state, { payload: user }) => {
       state.registerLoading = false;
-      state.registerError = null;
+      state.user = user;
     },
-    registerUserFailure(state, action) {
+    registerUserFailure: (state, { payload: error }) => {
       state.registerLoading = false;
-      state.registerError = action.payload;
+      state.registerError = error;
     },
-    logoutUser(state , action) {
+    loginUser: state => {
+      state.loginLoading = true;
+    },
+    loginUserSuccess: (state, { payload: user }) => {
+      state.loginLoading = false;
+      state.user = user;
+    },
+    loginUserFailure: (state, { payload: error }) => {
+      state.loginLoading = false;
+      state.loginError = error;
+    },
+    googleLogin: state => {
+      state.loginLoading = true;
+    },
+    logoutUser: () => { },
+    logoutSuccess: state => {
       state.user = null;
-    },
+    }
   }
 });
 
