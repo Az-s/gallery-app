@@ -1,14 +1,21 @@
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch , BrowserRouter as Router} from "react-router-dom";
+import { CssBaseline } from '@mui/material';
 import NavBar from './components/UI/NavBar/NavBar';
+import Gallery from "./containers/Gallery/Gallery";
+import Register from "./containers/Register/Register";
+import Login from "./containers/Login/Login";
 import './App.css';
 
 const App = () => {
   return (
     <div className="App">
-      <Switch>
+      <CssBaseline />
+      <Router>
         <NavBar />
-
-      </Switch>
+        <Route path="/" exact component={Gallery} />
+        <Route path="/register" component={Register} />
+        <Route path="/login" component={Login} />
+      </Router>
     </div>
   );
 }
