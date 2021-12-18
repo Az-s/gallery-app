@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Link } from "react-router-dom";
-import {Paper , Grid ,Box , Typography , Button , TextField} from '@mui/material';
+import { Paper, Grid, Box, Typography, Button, TextField } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-// import { useDispatch, useSelector } from "react-redux";
-// import { SignUpUser } from '../../store/actions/usersActions';
+import { useDispatch, useSelector } from "react-redux";
+import { registerUser } from '../../store/actions/usersActions';
+import ProgressBtn from '../../components/UI/ProgressBtn/ProgressBtn';
+import clearErrorUser from '../../store/actions/usersActions';
 
 function Copyright(props) {
     return (
@@ -24,13 +26,20 @@ function Copyright(props) {
 const theme = createTheme();
 
 const Register = () => {
-    // const dispatch = useDispatch();
-    // const error = useSelector(state => state.users.registerError);
+    const dispatch = useDispatch();
+    const error = useSelector(state => state.users.registerError);
+    const loading = useSelector(state => state.users.registerLoading);
 
     const [user, setUser] = useState({
         username: '',
         password: '',
     });
+
+    useEffect = (() => {
+        return () => {
+            dispatch(clearErrorUser());
+        };
+    }, [dispatch]);
 
     const inputChangeHandler = e => {
         const { name, value } = e.target;
@@ -39,17 +48,17 @@ const Register = () => {
         }));
     };
 
-    // const getFieldError = fieldName => {
-    //     try {
-    //         return error.errors[fieldName].message;
-    //     } catch (e) {
-    //         return undefined;
-    //     }
-    // };
+    const getFieldError = fieldName => {
+        try {
+            return error.errors[fieldName].message;
+        } catch (e) {
+            return undefined;
+        }
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // dispatch(SignUpUser({...user}));
+        dispatch(registerUser({ ...user }));
     };
 
     return (
@@ -97,7 +106,7 @@ const Register = () => {
                                 autoComplete="new-username"
                                 autoFocus
                                 onChange={inputChangeHandler}
-                                // error={getFieldError('username')}
+                                error={getFieldError('username')}
                             />
                             <TextField
                                 margin="normal"
@@ -108,16 +117,18 @@ const Register = () => {
                                 type="password"
                                 autoComplete="new-password"
                                 onChange={inputChangeHandler}
-                                // error={getFieldError('username')}
+                                error={getFieldError('password')}
                             />
-                            <Button
+                            <ProgressBtn
                                 type="submit"
                                 fullWidth
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
+                                loading={loading}
+                                disabled={loading}
                             >
                                 Sign Up
-                            </Button>
+                            </ProgressBtn>
                             <Grid container>
                                 <Grid item >
                                     <Link href="#" variant="body2" to="/login" >

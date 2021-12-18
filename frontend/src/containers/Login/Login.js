@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import { Link } from "react-router-dom";
+import Alert from '@mui/material/Alert';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -12,7 +12,10 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useDispatch, useSelector } from "react-redux";
 import GoogleLogin from "../../components/UI/GoogleLogin/GoogleLogin";
-// import { SignInUser } from '../../store/actions/usersActions';
+import { loginUser } from '../../store/actions/usersActions';
+import ProgressBtn from '../../components/UI/ProgressBtn/ProgressBtn';
+import clearErrorUser from '../../store/actions/usersActions';
+
 
 function Copyright(props) {
     return (
@@ -30,26 +33,31 @@ function Copyright(props) {
 const theme = createTheme();
 
 const Login = () => {
-
     const dispatch = useDispatch();
-    // const error = useSelector(state => state.users.loginError);
-    // const loading = useSelector(state => state.users.loginLoading);
+    const error = useSelector(state => state.users.loginError);
+    const loading = useSelector(state => state.users.loginLoading);
 
     const [user, setUser] = useState({
         username: '',
         password: ''
     });
 
+    useEffect(() => {
+        return () => {
+          dispatch(clearErrorUser());
+        };
+      }, [dispatch]);
+
     const inputChangeHandler = e => {
         const { name, value } = e.target;
         setUser(prevState => ({
             ...prevState, [name]: value
-        }));    
+        }));
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // dispatch(SignInUser({ ...user }));
+        dispatch(loginUser({ ...user }));
     };
 
     return (
@@ -86,6 +94,12 @@ const Login = () => {
                         <Typography component="h1" variant="h5">
                             Sign in
                         </Typography>
+                        {
+                            error &&
+                            <Alert severity="error" >
+                                {error.message || error.global}
+                            </Alert>
+                        }
                         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
                             <TextField
                                 margin="normal"
@@ -98,17 +112,7 @@ const Login = () => {
                                 autoFocus
                                 onChange={inputChangeHandler}
                             />
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                type="text"
-                                label="Username"
-                                name="username"
-                                autoComplete="new-username"
-                                autoFocus
-                                onChange={inputChangeHandler}
-                            />
+
                             <TextField
                                 margin="normal"
                                 required
@@ -119,14 +123,17 @@ const Login = () => {
                                 autoComplete="new-password"
                                 onChange={inputChangeHandler}
                             />
-                            <Button
+
+                            <ProgressBtn
                                 type="submit"
                                 fullWidth
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
+                                loading={loading}
+                                disabled={loading}
                             >
                                 Sign In
-                            </Button>
+                            </ProgressBtn>
                             <Grid item xs={12}>
                                 <GoogleLogin />
                             </Grid>

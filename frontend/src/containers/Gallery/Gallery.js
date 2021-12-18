@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ImageList, ImageListItem, ImageListItemBar, ListSubheader, IconButton, Grid, Button } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import CloseIcon from '@mui/icons-material/Close';
 import AddPhotoAlternateRoundedIcon from '@mui/icons-material/AddPhotoAlternateRounded';
 import { Link } from 'react-router-dom';
+import { fetchPhotosRequest } from '../../store/actions/photoActions';
+import { useDispatch, useSelector } from 'react-redux';
+import ProgressSpinner from '../../components/UI/ProgressSpinner/ProgressSpinner';
 
 
 const itemData = [
@@ -81,19 +84,28 @@ const itemData = [
 ];
 
 const Gallery = () => {
+    const dispatch = useDispatch();
+    const photos = useSelector(state => state.photos.photos);
+    const fetchPhotosLoading = useSelector(state => state.photos.fetchPhotosLoading)
+    const user = useSelector(state => state.users.user);
+
+    useEffect(() => {
+        dispatch(fetchPhotosRequest());
+    }, []);
+
     const [model, setModel] = useState(false);
     const [tempimgSrc, setTempImgSrc] = useState('');
 
     const getImg = (img) => {
         setTempImgSrc(img);
         setModel(true);
-    }
+    };
 
     return (
         <>
             <div className={model ? "model open" : "model"}>
                 <img src={tempimgSrc} />
-                <CloseIcon onClick={()=>setModel(false)} />
+                <CloseIcon onClick={() => setModel(false)} />
             </div>
             <ImageList sx={{ margin: '1rem' }} >
                 <ImageListItem key="Subheader" cols={6}>
@@ -108,6 +120,13 @@ const Gallery = () => {
                         </Grid>
                     </Grid>
                 </ImageListItem>
+                {user?.role === 'user' && (
+                    <Grid item>
+                        <Button coloe="primary" component={Link} to="/add_photo">
+                            <AddPhotoAlternateRoundedIcon />
+                        </Button>
+                    </Grid>
+                )}
                 {itemData.map((item) => (
                     <ImageListItem key={item.img} className='image'>
                         <img
@@ -124,6 +143,36 @@ const Gallery = () => {
                                 <IconButton
                                     sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
                                     aria-label={`info about ${item.title}`}
+                                >
+                                    <InfoIcon />
+                                </IconButton>
+                            }
+                        />
+                    </ImageListItem>
+                ))}
+
+                {fetchPhotosLoading ? (
+                    <Grid container justifyContent="center" alignItems="center">
+                        <Grid item>
+                            <ProgressSpinner />
+                        </Grid>
+                    </Grid>
+                ) : photos.map((item) => (
+                    <ImageListItem key={item._id} className='image'>
+                        <img
+                            src={`${item.img}?w=248&fit=crop&auto=format`}
+                            srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                            alt={item.title}
+                            onClick={() => getImg(item.img)}
+                        />
+                        <ImageListItemBar
+                            title={item.title}
+                            subtitle={item.user}
+                            actionIcon={
+                                <IconButton
+                                    sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
+                                    aria-label={`info about ${item.title}`}
+                                    component={Link} to="/add_photo"
                                 >
                                     <InfoIcon />
                                 </IconButton>
