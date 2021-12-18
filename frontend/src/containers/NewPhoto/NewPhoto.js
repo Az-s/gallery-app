@@ -1,30 +1,30 @@
 import React, { useEffect } from 'react';
-// import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Typography } from "@mui/material";
 import PhotoForm from '../../components/PhotoForm/PhotoForm';
+import { createPhotoRequest } from '../../store/actions/photoActions';
 
-const NewPhoto = ({history}) => {
-    // const dispatch = useDispatch();
-    // const categories = useSelector(state => state.categories.categories);
-    // const error = useSelector(state => state.products.createProductError);
-    // const loading = useSelector(state => state.products.createProductLoading);
+const NewPhoto = ({ history }) => {
+    const dispatch = useDispatch();
+    const error = useSelector(state => state.products.createProductError);
+    const loading = useSelector(state => state.products.createProductLoading);
 
     // useEffect(() => {
-    //   dispatch(fetchAuthorsRequest());
+    //     dispatch(fetchAuthorsRequest());
     // }, [dispatch]);
 
     const onSubmit = photoData => {
-        //   dispatch(createPhoto(photoData));
+        dispatch(createPhotoRequest(photoData));
         history.replace('/');
     };
 
     return (
         <>
-            <Typography variant="h4" m={2}>Add photo</Typography>
+            <Typography variant="h4" m={2}>Add new photo</Typography>
             <PhotoForm
                 onSubmit={onSubmit}
-            // error={error}
-            // loading={loading}
+                error={error}
+                loading={loading}
             />
         </>
     )

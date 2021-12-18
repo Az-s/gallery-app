@@ -9,7 +9,9 @@ const photosSlice = createSlice({
         photo: null,
         fetchPhotosLoading: false,
         fetchPhotoLoading: false,
+        createPhotoLoading: false,
         fetchPhotoError: null,
+        createPhotoError: null,
     },
     reducers: {
         fetchPhotosRequest: state => {
@@ -32,7 +34,17 @@ const photosSlice = createSlice({
         },
         fetchPhotoFailure: (state, { payload: error }) => {
             state.fetchPhotoLoading = false;
-            state.fetchEventError = error;
+            state.fetchPhotoError = error;
+        },
+        createPhotoRequest: state => {
+            state.createPhotoLoading = true;
+        },
+        createPhotoSuccess: (state) => {
+            state.createPhotoLoading = false;
+        },
+        createPhotoFailure: (state, { payload: error }) => {
+            state.createPhotoLoading = false;
+            state.createPhotoError = error;
         },
     }
 });

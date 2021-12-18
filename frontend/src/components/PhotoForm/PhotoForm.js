@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Grid, TextField , Button } from "@mui/material";
+import { Grid, TextField } from "@mui/material";
 import FormElement from "../UI/Form/FormElement";
 import ProgressBtn from '../UI/ProgressBtn/ProgressBtn'; 
 
-const PhotoForm = ({ onSubmit }) => {
+const PhotoForm = ({ onSubmit , error, loading }) => {
     const [state, setState] = useState({
         title: "",
         image: null,
@@ -38,7 +38,7 @@ const PhotoForm = ({ onSubmit }) => {
 
     const getFieldError = fieldName => {
         try {
-            // return error.errors[fieldName].message;
+            return error.errors[fieldName].message;
         } catch (e) {
             return undefined;
         }
@@ -80,8 +80,8 @@ const PhotoForm = ({ onSubmit }) => {
                     type="submit"
                     variant="contained"
                     color="primary"
-                    // loading={loading}
-                    // disabled={loading}
+                    loading={loading}
+                    disabled={loading}
                 >
                     Create
                 </ProgressBtn>

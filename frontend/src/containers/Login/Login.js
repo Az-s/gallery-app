@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import GoogleLogin from "../../components/UI/GoogleLogin/GoogleLogin";
 import { loginUser } from '../../store/actions/usersActions';
 import ProgressBtn from '../../components/UI/ProgressBtn/ProgressBtn';
-import clearErrorUser from '../../store/actions/usersActions';
+import { clearErrorUser } from '../../store/actions/usersActions';
 
 
 function Copyright(props) {
@@ -44,9 +44,9 @@ const Login = () => {
 
     useEffect(() => {
         return () => {
-          dispatch(clearErrorUser());
+            dispatch(clearErrorUser());
         };
-      }, [dispatch]);
+    }, [dispatch]);
 
     const inputChangeHandler = e => {
         const { name, value } = e.target;
