@@ -3,7 +3,7 @@ import { ImageList, ImageListItem, ImageListItemBar, ListSubheader, IconButton, 
 import InfoIcon from '@mui/icons-material/Info';
 import CloseIcon from '@mui/icons-material/Close';
 import AddPhotoAlternateRoundedIcon from '@mui/icons-material/AddPhotoAlternateRounded';
-import { Link } from 'react-router-dom';
+import { Link , useParams} from 'react-router-dom';
 import { fetchPhotosRequest } from '../../store/actions/photoActions';
 import { useDispatch, useSelector } from 'react-redux';
 import ProgressSpinner from '../../components/UI/ProgressSpinner/ProgressSpinner';
@@ -15,14 +15,14 @@ const Gallery = () => {
     const user = useSelector(state => state.users.user);
 
     useEffect(() => {
-        dispatch(fetchPhotosRequest(params.id));
-    }, [dispatch, params.id]);
+        dispatch(fetchPhotosRequest());
+    }, [dispatch]);
 
     const [model, setModel] = useState(false);
     const [tempimgSrc, setTempImgSrc] = useState('');
 
-    const getImg = (img) => {
-        setTempImgSrc(img);
+    const getImg = (image) => {
+        setTempImgSrc(image);
         setModel(true);
     };
 
@@ -54,12 +54,12 @@ const Gallery = () => {
                         </Grid>
                     </Grid>
                 ) : photos.map((item) => (
-                    <ImageListItem key={item._id} className='image'>
+                    <ImageListItem key={item._id} id={item._id} className='image'>
                         <img
                             src={`${item.image}?w=248&fit=crop&auto=format`}
                             srcSet={`${item.image}?w=248&fit=crop&auto=format&dpr=2 2x`}
                             alt={item.title}
-                            onClick={() => getImg(item.img)}
+                            onClick={() => getImg(item.image)}
                         />
                         <ImageListItemBar
                             title={item.title}

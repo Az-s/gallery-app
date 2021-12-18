@@ -4,25 +4,21 @@ const { nanoid } = require("nanoid");
 
 const SALT_WORK_FACTOR = 10;
 
-const validateUnique = async value => {
-    const user = await User.findOne({ email: value });
-    if (user) return false;
-};
-
-const validateEmail = value => {
-    const re = /^(\w+[-.]?\w+)@(\w+)([.-]?\w+)?(\.[a-zA-Z]{2,})$/;
-    if (!re.test(value)) return false;
-};
-
 const UserSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
         unique: true,
-        validate: [
-            { validator: validateEmail, message: 'Email is not valid!' },
-            { validator: validateUnique, message: 'This user is already registered!' }
-        ],
+        validate: {
+            validator: async function (value) {
+                if (this.isModified('email')) {
+                    const user = await User.findOne({ email: value });
+                    return !user;
+                }
+                return true;
+            },
+            message: 'This user is already registered'
+        }
     },
     password: {
         type: String,
@@ -36,7 +32,6 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    googleId: String,
 });
 
 UserSchema.pre('save', async function (next) {

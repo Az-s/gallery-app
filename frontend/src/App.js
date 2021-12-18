@@ -30,7 +30,7 @@ const App = () => {
           path="/add_photo"
           component={NewPhoto}
           isAllowed={user}
-          redirectTo="/login"
+          // redirectTo="/login"
         />
         <Route path="/my_photos" exact component={MyPhotos} />
         <Route path="/user_photos/:id" exact component={UserPhotos} />
