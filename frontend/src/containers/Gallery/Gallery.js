@@ -102,7 +102,7 @@ const Gallery = () => {
                             <ListSubheader component="div">Gallery</ListSubheader>
                         </Grid>
                         <Grid item>
-                            <Button coloe="primary" component={Link} to="/photos/new">
+                            <Button coloe="primary" component={Link} to="/add_photo">
                                 <AddPhotoAlternateRoundedIcon />
                             </Button>
                         </Grid>
