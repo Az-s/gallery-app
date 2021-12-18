@@ -6,8 +6,8 @@ import history from '../history';
 
 export function* rootSagas() {
   yield all([
-    ...photosSagas,
     ...registerUserSaga,
     ...historySagas(history),
+    ...photosSagas,
   ])
 }

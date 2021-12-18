@@ -14,7 +14,7 @@ import {
     createPhotoSuccess,
     createPhotoFailure,
     deletePhoto,
-} from '../actions/photoActions';
+} from '../actions/photosActions';
 
 export function* fetchPhotosSagas({ payload: id }) {
     try {
@@ -70,7 +70,7 @@ const photosSagas = [
     takeEvery(fetchPhotosRequest, fetchPhotosSagas),
     takeEvery(fetchPhotoRequest, fetchPhotoSagas),
     takeEvery(createPhotoRequest, createPhotoSagas),
-    takeEvery(deletePhoto, deletePhotoSagas),
+    takeEvery(deletePhoto, deletePhotoSagas)
 ];
 
 export default photosSagas;

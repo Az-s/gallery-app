@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { ImageList, ImageListItem, ImageListItemBar, ListSubheader, IconButton, Grid, Button } from '@mui/material';
+import { ImageList, ImageListItem, ImageListItemBar, ListSubheader, Grid, Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link , useParams} from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
 import AddPhotoAlternateRoundedIcon from '@mui/icons-material/AddPhotoAlternateRounded';
-import { fetchPhotosRequest } from '../../store/actions/photoActions';
+import { fetchPhotosRequest } from '../../store/actions/photosActions';
 import ProgressSpinner from '../../components/UI/ProgressSpinner/ProgressSpinner';
 
 const UserPhotos = () => {

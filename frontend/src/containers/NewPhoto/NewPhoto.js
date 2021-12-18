@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { Typography } from "@mui/material";
 import PhotoForm from '../../components/PhotoForm/PhotoForm';
-import { fetchPhotosRequest , createPhotoRequest} from '../../store/actions/photoActions';
+import { fetchPhotosRequest , createPhotoRequest} from '../../store/actions/photosActions';
 
 const NewPhoto = ({ history }) => {
     const dispatch = useDispatch();

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { ImageList, ImageListItem, ImageListItemBar, ListSubheader, IconButton, Grid, Button } from '@mui/material';
+import { ImageList, ImageListItem, ListSubheader, IconButton, Grid, Button, ImageListItemBar } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { deletePhoto, fetchPhotosRequest } from '../../store/actions/photoActions';
-import { Link , useParams} from 'react-router-dom';
+import { deletePhoto, fetchPhotosRequest } from '../../store/actions/photosActions';
+import { Link, useParams } from 'react-router-dom';
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddPhotoAlternateRoundedIcon from '@mui/icons-material/AddPhotoAlternateRounded';
@@ -17,7 +17,7 @@ const MyPhotos = () => {
 
     useEffect(() => {
         dispatch(fetchPhotosRequest(params.id));
-    }, [dispatch , params.id]);
+    }, [dispatch, params.id]);
 
     const [model, setModel] = useState(false);
     const [tempimgSrc, setTempImgSrc] = useState('');
@@ -66,12 +66,23 @@ const MyPhotos = () => {
                             alt={item.title}
                             onClick={() => getImg(item.image)}
                         />
-                        {user ?
+                        <ImageListItemBar
+                            title={item.title}
+                            subtitle={item.user.name}
+                            actionIcon={
+                                user ?
+                                    <IconButton aria-label="delete" size="small" onClick={() => removePhoto(item._id)}>
+                                        <DeleteIcon fontSize="inherit" />
+                                    </IconButton>
+                                    : null
+                            }
+                        />
+                        {/* {user ?
                             <IconButton aria-label="delete" size="small" onClick={() => removePhoto(item._id)}>
                                 <DeleteIcon fontSize="inherit" />
                             </IconButton>
                             : null
-                        }
+                        } */}
                     </ImageListItem>
                 ))}
             </ImageList>

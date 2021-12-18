@@ -1,10 +1,10 @@
-import {combineReducers} from "redux";
-import {loadFromLocalStorage, saveToLocalStorage} from "./localStorage";
+import { combineReducers } from "redux";
+import { loadFromLocalStorage, saveToLocalStorage } from "./localStorage";
 import axiosApi from "../axiosApi";
 import createSagaMiddleware from 'redux-saga';
-import {rootSagas} from "./rootSagas";
-import {configureStore} from "@reduxjs/toolkit";
-import usersSlice , {initialState} from "./slices/usersSlice";
+import { rootSagas } from "./rootSagas";
+import { configureStore } from "@reduxjs/toolkit";
+import usersSlice, { initialState } from "./slices/usersSlice";
 import photosSlice from "./slices/photosSlice";
 
 const rootReducer = combineReducers({
@@ -41,14 +41,14 @@ store.subscribe(() => {
 axiosApi.interceptors.request.use(config => {
   try {
     config.headers['Authorization'] = store.getState().users.user.token
-  } catch (e) {}
+  } catch (e) { }
 
   return config;
 });
 
 axiosApi.interceptors.response.use(res => res, e => {
   if (!e.response) {
-    e.response = {data: {global: 'No internet'}};
+    e.response = { data: { global: 'No internet' } };
   }
 
   throw e;

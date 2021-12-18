@@ -3,8 +3,8 @@ import { ImageList, ImageListItem, ImageListItemBar, ListSubheader, IconButton, 
 import InfoIcon from '@mui/icons-material/Info';
 import CloseIcon from '@mui/icons-material/Close';
 import AddPhotoAlternateRoundedIcon from '@mui/icons-material/AddPhotoAlternateRounded';
-import { Link , useParams} from 'react-router-dom';
-import { fetchPhotosRequest } from '../../store/actions/photoActions';
+import { Link } from 'react-router-dom';
+import { fetchPhotosRequest } from '../../store/actions/photosActions';
 import { useDispatch, useSelector } from 'react-redux';
 import ProgressSpinner from '../../components/UI/ProgressSpinner/ProgressSpinner';
 
