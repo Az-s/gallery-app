@@ -36,7 +36,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    facebookId: String,
+    googleId: String,
 });
 
 UserSchema.pre('save', async function (next) {
